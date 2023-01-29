@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{% endblock title %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-12 mt-5">
+			<p>Goodbye! You are now logged out. Click here to <a class="btn btn-outline-danger" href="{% url 'login' %}" role="button">Login</a> in again</p>
+		</div>
+	</div>
+</div>
+
+
+{% endblock content %}

@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}Home Page{% endblock title %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="p-5 text-center mb-5" style="background-color: #000000;">
+
+<div class="container">
+<div class="row text-center">
+	<div class="mt-5 mb-4">
+		<h1 class="text-white">Welcome {{user.username}}!</h1>
+		<br/>
+		<a class="btn btn-primary" href="{% url 'logout' %}" role="button">Logout</a>
+		{% else %}
+		<a class="btn btn-danger" href="{% url 'login' %}" role="button">Login</a>
+		{% endif %}
+
+</div>
+</div>			
+</div>
+</div>
+
+<div class="container">
+	<div class="row">
+		<div class="col">
+
+			<form class="" action="{% url 'home' %}" method="post">
+			{% csrf_token %}
+	
+				<div class="row">
+					<div class="col-6 mt-3">
+					<label form="title" class="form-label">Blog Outline</label>
+					<input type="text" class="form-control form-control-lg" name="title" placeholder="Write a Title..." required />
+					</div>
+					
+				
+					<div class="col-6 mt-3">
+					<label form="audience" class="form-label">Audience</label>
+					<select name="audience" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+						<option value="non-investors" selected>Non-Investors</option>
+						<option value="investors">Investors</option>
+					</select>
+					</div>
+			
+					</div>
+						
+				</div>
+				</div>
+				</div>
+				
+				<div class="container">
+					<div class="row">
+					<div class="col-12">
+					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
+					</form>
+					<button name="post" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button>
+					<button name="meta" class="btn btn-success mb-4" type="submit">Generate Meta Description</button>
+				</div>
+			</div>
+			</div>
+		</div>
+		
+		<div class="row mt-5">
+			{% if blog_outline %}
+			<div class="col-12">
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Blog Outline</h4>
+					<hr>
+					<p class="card-text">{{ blog_outline|safe }}</p>
+	
+				<p><a href="" class="btn btn-success">Copy</a></p>
+				</div>
+			</div>
+			{% endif %}
+			
+			{% if blog_post %}
+			<div class="col-12">
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Blog Post</h4>
+					<hr>
+					<p class="card-text">{{ blog_post|safe }}</p>
+	
+				<p><a href="" class="btn btn-success">Copy</a></p>
+				</div>
+			</div>
+			{% endif %}
+		</div>
+</div>
+
+{% endblock content %}
