@@ -56,8 +56,8 @@
 					<div class="col-12">
 					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
 					</form>
-					<button name="post" type="submit" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button>
-					<input name="meta" class="btn btn-success mb-4" type="submit" value="Generate Meta Description">
+					<a href="{% url 'blogpost' %}"><button name="post" type="submit" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button></a>
+					<a href="{% url 'meta' %}" class="btn btn-success mb-4">Generate Meta Description</a>
 				</div>
 			</div>
 			</div>
@@ -71,7 +71,7 @@
 					<hr>
 					<p id="myInput" class="card-text">{{ blog_outline|safe }}</p>
 	
-				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
+				<p><button onclick="myFunction()" class="btn btn-success">Copy</button>
 				</div>
 			</div>
 			{% endif %}
@@ -83,7 +83,7 @@
 					<hr>
 					<p id="myInput2" class="card-text">{{ blog_post|safe }}</p>
 	
-				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
+				<p><button onclick="myCopy()" class="btn btn-success">Copy</button></p>
 				</div>
 			</div>
 			{% endif %}
@@ -95,7 +95,7 @@
 					<hr>
 					<p id="myInput3" class="card-text">{{ meta_description|safe }}</p>
 	
-				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
+				<p><button onclick="myCopyy()" class="btn btn-success">Copy</button></p>
 				</div>
 			</div>
 			{% endif %}

@@ -12,6 +12,8 @@ def home(request):
     if request.method == 'POST' and 'outline' in request.POST:
         title = request.POST['title']
         audience = request.POST['audience']
+        new_title = title
+        print(new_title)
         blog_outline = generateblogoutline(audience, title)
         if blog_outline:
             request.session['blog_outline'] = blog_outline
@@ -26,10 +28,11 @@ def home(request):
 
         context = {}
         context['blog_outline'] = request.session['blog_outline']
+        print(request.session['blog_outline'])
         return render(request, 'home.html', context)
     
     if "post" in request.POST:
-        outline = request.session['title']
+        outline = request.session['blog_outline']
         blog_post = generateblogpost(outline)
         if blog_post:
             request.session['blog_post'] = blog_post
@@ -47,7 +50,7 @@ def home(request):
         return render(request, 'home.html', context)
 
     if "meta" in request.POST:
-        title = request.session['title']
+        title = title
         print(title)
         meta_description = generatemetadescription(outline)
         if meta_description:
@@ -67,3 +70,56 @@ def home(request):
         
 
     return render(request, 'home.html',)
+
+@login_required
+def blogpost(request):
+
+    if request.session['blog_outline']:
+        try:
+            
+            outline = request.session['blog_outline']
+            blog_post = generateblogpost(outline)
+        except KeyError:
+            
+            messages.error(request, 'Oops we could not generate any blog post for you, please try again.')
+            return redirect('home')
+    
+    if blog_post:
+        request.session['blog_post'] = blog_post
+    else:
+        messages.error(request, 'Oops we could not generate any blog post for you, please try again.')
+        return redirect('home')
+        
+    if 'blog_post' in request.session:
+        pass
+    else:     
+        messages.error(request, 'Start by creating a blog outline')
+        return redirect('home')
+
+    context = {}
+    context['blog_post'] = request.session['blog_post']
+    return render(request, 'home.html', context)
+
+@login_required
+def meta_description(request):
+    meta_description = request.session['blog_post']
+    print(meta_description)
+    meta_description = generatemetadescription(meta_description)
+    if meta_description:
+        
+        request.session['meta_description'] = meta_description
+    else:
+        
+        messages.error(request, 'Oops we could not generate any meta description for you, please try again.')
+        return redirect('home')
+        
+    if 'meta_description' in request.session:    
+        pass
+    else:
+        messages.error(request, 'Start by creating a blog outline')
+        return redirect('home')
+
+    context = {}
+    context['meta_description'] = request.session['meta_description']
+    return render(request, 'home.html', context)
+    
