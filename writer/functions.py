@@ -7,7 +7,7 @@ openai.api_key = settings.OPENAI_API_KEY
 def generateblogoutline(audience, title):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate a blog outline for {}  based on this\nTitle: {}".format(audience, title),
+        prompt="Generate a blog outline for {} based on this\nTitle: {}".format(audience, title),
         temperature=0.7,
         max_tokens=1000,
         top_p=1,
@@ -42,7 +42,7 @@ def youtubelink(topic):
     return response['choices'][0]['text']
 
 
-def metadescription(title):
+def generatemetadescription(title):
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt="Create an SEO meta description for this blog post {}".format(title),

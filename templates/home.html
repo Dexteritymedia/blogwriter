@@ -1,19 +1,21 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Home Page{% endblock title %}
 
 {% block content %}
+
 {% if user.is_authenticated %}
-<div class="p-5 text-center mb-5" style="background-color: #000000;">
+<div class="p-5 text-center mb-5" style="background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);">
 
 <div class="container">
 <div class="row text-center">
 	<div class="mt-5 mb-4">
 		<h1 class="text-white">Welcome {{user.username}}!</h1>
 		<br/>
-		<a class="btn btn-primary" href="{% url 'logout' %}" role="button">Logout</a>
+		<a class="btn btn-lg btn-primary" href="{% url 'logout' %}" role="button">Logout</a>
 		{% else %}
-		<a class="btn btn-danger" href="{% url 'login' %}" role="button">Login</a>
+		<a class="btn btn-lg btn-primary" href="{% url 'login' %}" role="button">Login</a>
 		{% endif %}
 
 </div>
@@ -54,8 +56,8 @@
 					<div class="col-12">
 					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
 					</form>
-					<button name="post" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button>
-					<button name="meta" class="btn btn-success mb-4" type="submit">Generate Meta Description</button>
+					<button name="post" type="submit" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button>
+					<input name="meta" class="btn btn-success mb-4" type="submit" value="Generate Meta Description">
 				</div>
 			</div>
 			</div>
@@ -67,9 +69,9 @@
 				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
 					<h4>Blog Outline</h4>
 					<hr>
-					<p class="card-text">{{ blog_outline|safe }}</p>
+					<p id="myInput" class="card-text">{{ blog_outline|safe }}</p>
 	
-				<p><a href="" class="btn btn-success">Copy</a></p>
+				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
 				</div>
 			</div>
 			{% endif %}
@@ -79,13 +81,45 @@
 				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
 					<h4>Blog Post</h4>
 					<hr>
-					<p class="card-text">{{ blog_post|safe }}</p>
+					<p id="myInput2" class="card-text">{{ blog_post|safe }}</p>
 	
-				<p><a href="" class="btn btn-success">Copy</a></p>
+				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
 				</div>
 			</div>
 			{% endif %}
+			
+			{% if meta_description %}
+			<div class="col-12">
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Meta Description</h4>
+					<hr>
+					<p id="myInput3" class="card-text">{{ meta_description|safe }}</p>
+	
+				<p><a onclick="myFunction()" class="btn btn-success">Copy</a></p>
+				</div>
+			</div>
+			{% endif %}
+			
 		</div>
 </div>
+
+{% block extra_js %}
+<script>
+function myFunction() {
+  // Get the text field
+  var copyText = document.getElementById("myInput");
+
+  // Select the text field
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+   // Copy the text inside the text field
+  navigator.clipboard.writeText(copyText.value);
+
+  // Alert the copied text
+  alert("Copied the text: " + copyText.value);
+} 
+</script>
+{% endblock extra_js %}
 
 {% endblock content %}

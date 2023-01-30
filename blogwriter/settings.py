@@ -19,11 +19,6 @@ env = environ.Env(
 )
 
 
-#environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-environ.Env.read_env(os.path.join('./.env'))
-
-SECRET_KEY = env('SECRET_KEY')
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -32,10 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-#SECRET_KEY = 'django-insecure-4ki$3zs2na^&^38p1q!kb0rgwgoqrjucdwaacaz-wvqdorp@f_'
+
+#environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+#DEBUG = env('DEBUG')
+
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -151,6 +152,8 @@ MEDIA_ROOT = [os.path.join(BASE_DIR, 'media'),]
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGIN_URL = 'login'
 
 LOGIN_REDIRECT_URL = 'home'
 

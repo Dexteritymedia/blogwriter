@@ -28,7 +28,7 @@ def home(request):
         context['blog_outline'] = request.session['blog_outline']
         return render(request, 'home.html', context)
     
-    if request.method == "POST" and "post" in request.POST:
+    if "post" in request.POST:
         outline = request.session['title']
         blog_post = generateblogpost(outline)
         if blog_post:
@@ -44,6 +44,25 @@ def home(request):
 
         context = {}
         context['blog_post'] = request.session['blog_post']
+        return render(request, 'home.html', context)
+
+    if "meta" in request.POST:
+        title = request.session['title']
+        print(title)
+        meta_description = generatemetadescription(outline)
+        if meta_description:
+            request.session['meta_description'] = meta_description
+        else:
+            messages.error(request, 'Oops we could not generate any meta description for you, please try again.')
+        
+        if 'meta_description' in request.session:
+            pass
+        else:
+            
+            messages.error(request, 'Start by asking a question')
+
+        context = {}
+        context['meta_description'] = request.session['meta_description']
         return render(request, 'home.html', context)
         
 

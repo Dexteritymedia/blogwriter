@@ -5,6 +5,13 @@
 {% block content %}
 <div class="container">
 	<div class="row">
+	{% if form.errors %}
+		<div class="col-12 mt-5">
+		<div class="shadow card-body">
+			<div class="card-text text-danger" href="#" data-dismiss="alert">Username or password not correct. Please enter a valid username and password.</div>
+		</div>
+		</div>
+	{% endif %}
 		<div class="col-12 mt-5">
 		<h2>Login</h2>
 			<form method="post">
