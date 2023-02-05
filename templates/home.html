@@ -68,11 +68,7 @@
 				<div class="container">
 					<div class="row">
 					<div class="col-12">
-					{% if blog_outline %}
-					<button name="retry" class="btn btn-secondary mb-4" type="submit">Retry</button>
-					{% else %}
 					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
-					{% endif %}
 					</form>
 					<a href="{% url 'blogpost' %}"><button name="post" type="submit" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button></a>
 					<a href="{% url 'meta' %}" class="btn btn-success mb-4">Generate Meta Description</a>
