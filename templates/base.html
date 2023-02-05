@@ -14,6 +14,7 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
 		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Alegreya+Sana:wght@500|Libre+Bodoni|Righteous|Alegreya|Lora|Lato">
+		<script src="https://unpkg.com/htmx.org@1.8.0"></script>
     </head>
 
  <body>
@@ -22,6 +23,11 @@
 
 
 {% block extra_js %}{% endblock extra_js %}
+<script>
+        document.body.addEventListener('htmx:configRequest', (e) => {
+          e.detail.headers['X-CSRFToken'] = '{{ csrf_token }}';
+          })
+      </script>
 <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
     </body>
 	

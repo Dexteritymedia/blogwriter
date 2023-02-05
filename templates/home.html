@@ -23,6 +23,20 @@
 </div>
 </div>
 
+{% if messages %}
+<div class="container">
+<div class="row">
+{% for message in messages.error %}
+<div class="col-12">
+<div class="shadow card-body">
+	<div class="card-text text-danger" href="#" data-dismiss="alert">{{ message }}</div>
+	</div>
+</div>
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
 <div class="container">
 	<div class="row">
 		<div class="col">
@@ -54,7 +68,11 @@
 				<div class="container">
 					<div class="row">
 					<div class="col-12">
+					{% if blog_outline %}
+					<button name="retry" class="btn btn-secondary mb-4" type="submit">Retry</button>
+					{% else %}
 					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
+					{% endif %}
 					</form>
 					<a href="{% url 'blogpost' %}"><button name="post" type="submit" class="btn btn-primary mb-4" type="submit">Generate Blog Post</button></a>
 					<a href="{% url 'meta' %}" class="btn btn-success mb-4">Generate Meta Description</a>
@@ -69,9 +87,12 @@
 				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
 					<h4>Blog Outline</h4>
 					<hr>
-					<p id="myInput" class="card-text">{{ blog_outline|safe }}</p>
+					<div id="myInput3" class="card-text">{{ blog_outline|safe }}</div>
 	
-				<p><button onclick="myFunction()" class="btn btn-success">Copy</button>
+				<div class="d-grid gap-2">
+					<button onclick="copyText()" class="btn btn-success">Copy</button>
+					<a href="{% url 'retry' %}" class="btn btn-primary mb-4">Retry</a>
+				</div>
 				</div>
 			</div>
 			{% endif %}
@@ -81,21 +102,28 @@
 				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
 					<h4>Blog Post</h4>
 					<hr>
-					<p id="myInput2" class="card-text">{{ blog_post|safe }}</p>
+					<div id="myInput2" class="card-text">{{ blog_post|safe }}</div>
 	
-				<p><button onclick="myCopy()" class="btn btn-success">Copy</button></p>
+				<div class="d-grid gap-2">
+				<button onclick="myCopy()" class="btn btn-success">Copy</button>
+				<a href="{% url 'blogpost' %}" class="btn btn-primary mb-4">Rewrite</a>
+				</div>
 				</div>
 			</div>
 			{% endif %}
+			
+			{% include "rewrite_blogpost.html" %}
 			
 			{% if meta_description %}
 			<div class="col-12">
 				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
 					<h4>Meta Description</h4>
 					<hr>
-					<p id="myInput3" class="card-text">{{ meta_description|safe }}</p>
-	
-				<p><button onclick="myCopyy()" class="btn btn-success">Copy</button></p>
+					<p id="myInput" class="card-text">{{ meta_description|safe }}</p>
+					
+				<div class="d-grid gap-2">
+				<button onclick="myCopyy()" class="btn btn-success">Copy</button>
+				</div>
 				</div>
 			</div>
 			{% endif %}
@@ -103,22 +131,43 @@
 		</div>
 </div>
 
+<div class="container">
+	<div class="row">
+	
+		<div class="col-6">
+			<form class="" hx-get="{% url 'youtube_link' %}" method="post">
+			{% csrf_token %}
+				<label form="title" class="form-label">Create YouTube link</label>
+				<input type="text" class="form-control form-control-lg" name="topic" placeholder="Write a topic.." />
+				<a href="{% url 'youtube_link' %}"><button hx-get="{% url 'youtube_link' %}" hx-target="#results" hx-swap="innerHTML" class="btn btn-secondary mt-4 mb-4" type="submit">Generate link</button></a>
+			</form>
+		</div>
+		
+		<div id="results">
+			{% include "youtube_link.html" %}
+		</div>
+		
+	</div>
+</div>
+
 {% block extra_js %}
 <script>
-function myFunction() {
-  // Get the text field
-  var copyText = document.getElementById("myInput");
-
-  // Select the text field
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); // For mobile devices
-
-   // Copy the text inside the text field
-  navigator.clipboard.writeText(copyText.value);
-
-  // Alert the copied text
-  alert("Copied the text: " + copyText.value);
-} 
+function copyText(){
+    var text = document.getElementById("myInput3").innerHTML;
+    navigator.clipboard.writeText(text);
+}
+</script>
+<script>
+function myCopy(){
+    var text = document.getElementById("myInput2").innerHTML;
+    navigator.clipboard.writeText(text);
+}
+</script>
+<script>
+function myCopyy(){
+    var text = document.getElementById("myInput").innerHTML;
+    navigator.clipboard.writeText(text);
+}
 </script>
 {% endblock extra_js %}
 
