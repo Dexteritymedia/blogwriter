@@ -19,12 +19,12 @@ def generateblogoutline(audience, title):
 def generateblogpost(outline):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Write a 1000-1500 words blog post explaining each outlines, headings and subtitles in 3-5 paragraphs including appropriate html tags and a clickable table of contents:\n\n{}".format(outline),
+        prompt="Write a 1500 words blog post explaining each outlines, headings and subtitles in 3-5 paragraphs including appropriate html tags and a clickable table of contents:\n\n{}".format(outline),
         temperature=0.85,
-        max_tokens=2500,
+        max_tokens=3000,
         top_p=1,
-        frequency_penalty=0,
-        presence_penalty=0)
+        frequency_penalty=0.5,
+        presence_penalty=0.25)
 
     return response['choices'][0]['text']
 

@@ -129,19 +129,23 @@
 
 <div class="container">
 	<div class="row">
-	
+		
 		<div class="col-6">
-			<form class="" hx-get="{% url 'youtube_link' %}" method="post">
+			<form class="" action="{% url 'youtube_link' %}" method="post">
 			{% csrf_token %}
 				<label form="title" class="form-label">Create YouTube link</label>
 				<input type="text" class="form-control form-control-lg" name="topic" placeholder="Write a topic.." />
-				<a href="{% url 'youtube_link' %}"><button hx-get="{% url 'youtube_link' %}" hx-target="#results" hx-swap="innerHTML" class="btn btn-secondary mt-4 mb-4" type="submit">Generate link</button></a>
+				<button class="btn btn-secondary mt-4 mb-4" type="submit">Generate link</button>
 			</form>
 		</div>
 		
+			{% include "youtube_link.html" %}
+		
+		{% if is_htmx %}
 		<div id="results">
 			{% include "youtube_link.html" %}
 		</div>
+		{% endif %}
 		
 	</div>
 </div>

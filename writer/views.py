@@ -210,6 +210,7 @@ def youtube_link(request):
 
         context = {}
         context['youtube_link'] = request.session['youtube_link']
+        context['is_htmx'] = request.headers.get('HX-Request') == 'true'
         return render(request, 'home.html', context)
 
 
