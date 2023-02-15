@@ -219,9 +219,21 @@ def add_youtube_link(request):
     youtube_link = request.POST.get('youtube_link')
     blog_post = request.session['blog_post']
     print(youtube_link)
-    print(blog_post)
-    youtube_blog_link = addyoutubelink(youtube_link, blog_post)
-    print(youtube_blog_link)
+    index = blog_post.find('Table of Contents')
+    youtube_blog_link = blog_post
+    
+    mylines = []
+    flag = False
+    for line in blog_post:
+        if flag == False and "Table of Contents".lower() in line.strip().lower():
+            flag = True
+        if flag:
+            mylines.append(line)
+            if "</ul>".lower() in line.strip().lower():
+                flag = False
+    print(''.join(mylines))
+    print(mylines)
+                
     if youtube_blog_link:
         
         request.session['youtube_blog_link'] = youtube_blog_link
@@ -237,6 +249,11 @@ def add_youtube_link(request):
         return redirect('home')
 
     context = {}
-    context['youtube_blog_link'] = request.session['youtube_blog_link']
+    
+    youtube_blog = request.session['youtube_blog_link'].find('Table of Contents')
+    context['blog_post_1'] = request.session['youtube_blog_link'][:index]
+    context['youtube_add_link'] = youtube_link
+    context['blog_post_2'] = request.session['youtube_blog_link'][index:]
+    
     return render(request, 'home.html', context)
     

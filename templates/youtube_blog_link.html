@@ -1,0 +1,15 @@
+{% if youtube_add_link %}
+			<div class="col-12">
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Blog Post</h4>
+					<hr>
+					<p id="myInput3" class="card-text">{{ blog_post_1|safe }}</p>
+					<a href="{{ youtube_add_link }}">{{ youtube_add_link|safe }}</a>
+					<br/>
+					<p>{{ blog_post_2|safe }}</p>
+	
+				<p><button onclick="myCopyy()" class="btn btn-success">Copy</button></p>
+				</div>
+			</div>
+	{% endif %}
+			

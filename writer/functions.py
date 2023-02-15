@@ -1,8 +1,19 @@
 import os
+import urllib.request
+import re
+
 from django.conf import settings
+
 import openai
 
 openai.api_key = settings.OPENAI_API_KEY
+
+def generateyoutubevideo(search):
+    name = search
+    query = name.replace(' ', '+')
+    html = urllib.request.urlopen("https://www.youtube.com/results?search_query="+query)
+    video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+    return video_ids[:3]
 
 def generateblogoutline(audience, title):
     response = openai.Completion.create(
@@ -19,7 +30,7 @@ def generateblogoutline(audience, title):
 def generateblogpost(outline):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Write a 1500 words blog post explaining each outlines, headings and subtitles in 3-5 paragraphs including appropriate html tags and a clickable table of contents:\n\n{}".format(outline),
+        prompt="Write a 2500 words blog post explaining each outlines, headings and subtitles in 3-5 paragraphs including appropriate html tags and a clickable table of contents:\n\n{}".format(outline),
         temperature=0.85,
         max_tokens=3000,
         top_p=1,

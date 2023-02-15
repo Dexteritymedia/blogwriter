@@ -140,18 +140,7 @@
 			</form>
 		</div>
 		
-		<div class="col-6">
-			<form class="" action="{% url 'add_youtube' %}" method="post">
-			{% csrf_token %}
-				<label form="title" class="form-label">Add YouTube link</label>
-				<input type="text" class="form-control form-control-lg" name="youtube_link" placeholder="Enter the link"/>
-				<button class="btn btn-secondary mt-4 mb-4" type="submit">Add</button>
-			</form>
-		</div>
-		
 			{% include "youtube_link.html" %}
-			
-			{% include "youtube_blog_link.html" %}
 		
 		{% if is_htmx %}
 		<div id="results">
