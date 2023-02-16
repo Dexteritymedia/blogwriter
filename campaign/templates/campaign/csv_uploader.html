@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container-fluid">
+<div class="row">
+<div class="col">
+<div class="custom-file mt-3 mb-4">
+    <div class="header">
+        <h1>CSV Uploader</h1>
+    </div>
+
+    <form id="example-form1" action="." method="post" enctype="multipart/form-data">{% csrf_token %}
+        <label for="images" class="drop-container">
+            <span class="drop-title">Drop files here</span>
+            or    
+            <input type="file" class="custom-file-input" id="customFile" name="csv" required accept=".csv" size="60">
+        </label>
+    <div>
+        <div align="center">
+            <input type="submit" class="button" value="Submit">
+        </div>
+    </div>
+    </form>
+</div>
+</div>
+
+{% if success %}
+<div class="row">
+<div class="col mt-5">
+	<div class="alert alert-warning" role="alert">
+		<span class="alert-link">{{ success }}! Click <a href="{% url 'home' %}">here</a> to view</span>
+	</div>
+</div>
+</div>
+{% endif %}
+
+{% if exceptions_raised %}
+<div class="row">
+<div class="col mt-5">
+	<div class="alert alert-warning" role="alert">
+		Error: <span class="alert-link">{{ exceptions_raised }}! Please check the headings of your csv file and try again</span>
+	</div>
+</div>
+</div>
+{% endif %}
+
+</div>
+</div>
+{% endblock content %}

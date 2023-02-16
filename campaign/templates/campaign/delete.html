@@ -1,0 +1,21 @@
+{% extends 'campaign/base.html' %}
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-12 mt-5">
+			<form method="POST">
+			{% csrf_token %}
+				<p>Are you sure you want to delete "{{ ad_copy }}"?</p>
+				
+				<p class="form-buttons">
+	
+					<button class="btn btn-danger mb-4" value="Delete" type="submit">Delete</button>
+					<a href="{% url 'home' %}" class="btn btn-primary mb-4">Cancel</a>
+				</p>
+			</form>
+		</div>
+	</div>
+</div>
+
+{% endblock content %}

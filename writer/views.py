@@ -214,12 +214,30 @@ def youtube_link(request):
         return render(request, 'home.html', context)
 
 
+def get_youtube_link(request):
+    youtube_link = request.POST.get('youtube_link')
+    context = {}
+    if youtube_link:
+        query = youtube_link.replace(' ', '+')
+        html = urllib.request.urlopen("https://www.youtube.com/results?search_query="+query)
+        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+        thumbnail_ids = re.findall(r"vi\/(.*)\//", html.read().decode())
+        photo_ids = re.findall(r"vi\/(\S{11})\/0\.jpg/", html.read().decode())
+        context['youtube_link'] = video_ids[:3]
+        context['thumbnail_ids'] = thumbnail_ids[:3]
+        context['photo_ids'] = photo_ids[:3]
+        print(context['photo_ids'])
+        print(context['youtube_link'])
+        return render(request, 'youtube.html', context)
+    return render(request, 'youtube.html', context)
+
+
 @login_required
 def add_youtube_link(request):
     youtube_link = request.POST.get('youtube_link')
     blog_post = request.session['blog_post']
     print(youtube_link)
-    index = blog_post.find('Table of Contents')
+    index = blog_post.find('<h2>Table of Contents')
     youtube_blog_link = blog_post
     
     mylines = []

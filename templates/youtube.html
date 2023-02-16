@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+<div class="row">
+<div class="col-6">
+			<form class="" action="{% url 'get_youtube_link' %}" method="post">
+			{% csrf_token %}
+				<label form="title" class="form-label">Add YouTube link</label>
+				<input type="text" class="form-control form-control-lg" name="youtube_link" placeholder="Enter the link"/>
+				<button class="btn btn-secondary mt-4 mb-4" type="submit">Generate</button>
+			</form>
+		</div>
+		
+		{% if youtube_link %}
+			<div class="col-12"> 
+					<h4>Links</h4>
+					<hr>
+					{% for link in youtube_link %}
+					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
+					<a id="myInput" href="https://www.youtube.com/watch?v={{ link }}" class="card-text">https://www.youtube.com/watch?v={{ link }}</a>
+					<button onclick="myCopyy()" class="btn btn-success">Copy<i class="fa fa-copy"></i></button>
+				</div>
+				{% endfor %}
+				
+				{% for thumbnail in thumbnail_ids %}
+					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
+					<img src="https://i1.ytimg.com/vi">
+				</div>
+				{% endfor %}
+				
+				{% for photo in photo_ids %}
+					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
+					<img src="https://i1.ytimg.com/vi">
+				</div>
+				{% endfor %}
+				
+				</div>
+			{% endif %}
+		</div>
+		</div>
+			
+{% endblock content %}
+			

@@ -1,0 +1,102 @@
+{% extends 'campaign/base.html' %}
+
+{% block content %}
+<div class="container mt-5 mb-5">
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-9 p-0">
+                        <h5><b>Send Email to Multiple Users - <span class="text-danger">AI Email Marketing Generator</span></b></h5>
+                    </div>
+                    <div class="col-md-3 text-right mb-2 p-0">
+						<a href="{% url 'csv_uploader' %}" class="btn btn-success btn-sm mb-4">Upload Csv</a>
+						<a href="{% url 'export_csv' %}" class="btn btn-secondary btn-sm mb-4">Export Csv</a>
+						<a href="{% url 'all_pdf' %}" class="btn btn-info btn-sm mb-4">Download PDF</a>
+                    </div>
+                    <div class="col-md-12 success-mail p-0" style="display: none;">
+                        <div class="alert alert-success">
+                          Sent Mail Successfully.
+                        </div>
+                    </div>
+                </div>
+				{% if messages %}
+					<div class="row">
+					{% for message in messages %}
+					{% if message.tags == 'success' %}
+					<div class="alert alert-success" role="alert">
+						{{ message.tag }}
+						<span class="alert-link">{{ message }}</span>
+					</div>
+					{% else %}
+					<div class="alert alert-warning" role="alert">
+						{{ message.tag }}
+						<span class="alert-link">{{ message }}</span>
+					</div>
+					{% endif %}
+					{% endfor %}
+					</div>
+				{% endif %}
+			
+                <div class="row">
+					<form action="{% url 'home' %}" method="POST">
+					<button class="btn btn-danger mb-4" name="ad_copy" type="submit">Generate Ad Copy</button>
+					<button class="btn btn-primary mb-4" name="send_mail" type="submit"><i class="fa fa-share"></i> Send Mail</button>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" value="1" name="user-all" class="user-all"></th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Product</th>
+                                <th>Ad Copy</th>
+                                <th>Description</th>
+								<th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% csrf_token %}
+                            {% for content in ad_copy %}
+                            <tr>
+                                <td><input type="checkbox" name="ckeck_user[]" class="ckeck_user" value="{{ content.id }}"></td>
+                                <td>{{ content.name}}</td>
+                                <td>{{ content.email }}</td>
+                                <td>{{ content.product }}</td>
+                                <td>{{ content.ad_copy }}</td>
+                                <td>{{ content.description }}</td>
+								{% if content.status == "Sent" %}
+								<td><i class="fa fa-check-circle fa-3x text-success" aria-hidden="true"></i></td>
+								{% else %}
+								<td><i class="fa fa-times-circle fa-3x text-danger" aria-hidden="true"></i></td>
+								{% endif %}
+								<td>
+									<a href="{% url 'edit' content.id %}" class="btn btn-warning mb-4" type="submit">Edit</a>
+									<a href="{% url 'pdf' content.id %}" class="btn btn-success mb-4" type="submit">Download PDF</a>
+									<a href="{% url 'delete' content.id %}" class="btn btn-danger mb-4" type="submit">Delete</a>
+								</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+					</form>
+                </div>
+			 </div>
+        </div>
+    </div>
+				
+	{% if is_paginated %}
+		
+					<nav aria-label="Page navigation example mt-3">
+						<ul class="pagination justify-content-center">
+						{% if page_obj.has_previous %}
+							<li class="page-item"><a class="page-link" href="?page={{page_obj.previous_page_number}}">Previous</a></li>
+						{% endif %}
+						{% for number in page_obj.paginator.page_range %}
+						<li class="page-item"><a class="page-link" href="?page={{number}}">{{number}}</a></li>
+						{% endfor %}
+						{% if page_obj.has_next %}
+						<li class="page-item"><a class="page-link" href="?page={{page_obj.next_page_number}}">Next</a></li>
+						{% endif %}
+						</ul>
+					</nav>
+				{% endif %}
+{% endblock content %}

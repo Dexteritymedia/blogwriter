@@ -1,0 +1,48 @@
+{% extends "campaign/base.html" %}
+
+
+{% block content %}
+<div class="container">
+	<div class="row">
+		<div class="col-12 mt-5">
+			<h1>PDF FILE</h1>
+			<div class="table-responsive">
+				<table class="table table-striped">
+                        <thead>
+                            <tr>
+								<th>S/N</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Product</th>
+                                <th>Ad Copy</th>
+                                <th>Description</th>
+								<th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for content in ad_copy %}
+                            <tr>
+								<td>{{ content.id}}</td>
+                                <td>{{ content.name}}</td>
+                                <td>{{ content.email }}</td>
+                                <td>{{ content.product }}</td>
+                                <td>{{ content.ad_copy }}</td>
+                                <td>{{ content.description }}</td>
+								{% if content.status == "Sent" %}
+								<td><i class="fa fa-check-circle fa-3x text-success" aria-hidden="true"></i>Sent</td>
+								{% else %}
+								<td><i class="fa fa-times-circle fa-3x text-danger" aria-hidden="true"></i>Pending</td>
+								{% endif %}
+								<td>
+									<a href="{% url 'edit' content.id %}" class="btn btn-info mb-4" type="submit">Edit</a>
+									<a href="{% url 'delete' content.id %}" class="btn btn-danger mb-4" type="submit">Delete</a>
+								</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+				</div>
+		</div>
+	</div>
+</div>
+{% endblock %}
