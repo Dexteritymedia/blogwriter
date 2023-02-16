@@ -33,12 +33,12 @@ def generateblogoutline(audience, title):
 def generateblogpost(outline):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Write a 2500 words blog post explaining each outlines, headings and subtitles in an informative and expertise format. Your writings style should demonstrate a deep understanding of the topic.\n\nMake sure to include semantic adjectives and do not forget to add appropriate html tags and also a clickable table of contents with the heading tag h2 and ul tag for the lists\n\nMake sure to format all headings with capital letter:\n\n{}".format(outline),
-        temperature=0.85,
-        max_tokens=3000,
+        prompt="Write a 2500 words blog post explaining each outlines, headings and subtitles in an informative and expertise format. Your writing style should demonstrate a deep understanding of the topic and a shows you have experience. \n\nMake sure to include semantic adjectives and do not forget to add appropriate html tags and also add a clickable table of contents with the heading tag h2 and ul tag for the lists. \n\nMake sure the first letter in headings start with capital letter \n\n{}".format(outline),
+        temperature=0.7,
+        max_tokens=2805,
         top_p=1,
-        frequency_penalty=0.5,
-        presence_penalty=0.25)
+        frequency_penalty=0,
+        presence_penalty=0)
 
     return response['choices'][0]['text']
 

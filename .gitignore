@@ -26,6 +26,7 @@ wheels/
 
 /newsletter/
 media
+campaign/
 db.sqlite3
 __pycache__
 *.sqlite3
