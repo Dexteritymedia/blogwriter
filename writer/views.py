@@ -136,8 +136,8 @@ def blogpost(request):
 
     context = {}
     context['blog_post'] = request.session['blog_post']
-    context['is_htmx'] = request.headers.get('HX-Request') == 'true'
-    return render(request, 'blogpost.html', context)
+    #context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+    return render(request, 'blogpost_page.html', context)
 
 
 
@@ -190,7 +190,7 @@ def meta_description(request):
 
     context = {}
     context['meta_description'] = request.session['meta_description']
-    context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+    #context['is_htmx'] = request.headers.get('HX-Request') == 'true'
     return render(request, 'meta_description.html', context)
 
 

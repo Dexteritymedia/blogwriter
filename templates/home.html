@@ -72,7 +72,7 @@
 					</form>
 					
 					
-					<button hx-get="{% url 'blogpost' %}" hx-target="#blogpost" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#spinnerB" class="btn btn-primary mb-4" type="submit">Generate Blog Post
+					<button hx-post="{% url 'blogpost' %}" hx-target="#blog-post" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#spinnerB" class="btn btn-primary mb-4" type="submit">Generate Blog Post
 					<i id="spinnerB" class="htmx-indicator fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only"> Loading...</span>
 					</button>
 					
@@ -100,18 +100,18 @@
 			</div>
 			{% endif %}
 			
-			<div class="col-12" id="#blogpost">
-				{% include "blogpost.html" %}
+			<div class="col-12" id="blog-post">
+				{% include "blogpost_page.html" %}
 			</div>
 			
 			
 			{% include "rewrite_blogpost.html" %}
 			
-			{% if is_htmx %}
-			<div class="col-12" id="#metadesc">
+			
+			<div class="col-12" id="metadesc">
 				{% include "meta_description.html" %}
 			</div>
-			{% endif %}
+			
 			
 		</div>
 </div>
