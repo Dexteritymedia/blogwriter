@@ -1,0 +1,35 @@
+		{% if youtube_link %}
+			<div class="row mb-5"> 
+				<h4>Links</h4>
+				<hr>
+				{% for link in youtube_link %}
+					<div class="col-4 mt-3">
+					<div class="shadow card">
+					<img src="https://i4.ytimg.com/vi/{{ link }}/default.jpg" class="card-img-top">
+					<div class="card-body">
+						<a id="myInput" href="https://www.youtube.com/watch?v={{ link }}" class="card-text">https://www.youtube.com/watch?v={{ link }}</a>
+						<p class="mt-4"><button onclick="myCopyy()" class="btn btn-success float-right">Copy<i class="fa fa-copy"></i></button></p>
+					</div>
+				</div>
+				</div>
+				{% endfor %}	
+			</div>
+		{% endif %}
+		
+		{% if youtube_link2 %}
+			<div class="row mb-5"> 
+				<h4>Links</h4>
+				<hr>
+				{% for link in youtube_link2 %}
+					<div class="col-4 mt-3">
+					<div class="shadow card">
+					<img src="https://i3.ytimg.com/vi/{{ link }}/default.jpg" class="card-img-top">
+					<div class="card-body">
+						<a id="myInput" href="https://www.youtube.com/watch?v={{ link }}" class="card-text">https://www.youtube.com/watch?v={{ link }}</a>
+						<p class="mt-4"><button onclick="myCopyy()" class="btn btn-success float-right">Copy<i class="fa fa-copy"></i></button></p>
+					</div>
+				</div>
+				</div>
+				{% endfor %}	
+			</div>
+		{% endif %}

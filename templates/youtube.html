@@ -3,42 +3,25 @@
 {% block content %}
 <div class="container">
 <div class="row">
-<div class="col-6">
-			<form class="" action="{% url 'get_youtube_link' %}" method="post">
+		<div class="col-6">
+			<form class="" hx-post="{% url 'get_youtube_link' %}" hx-target="#results" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#spinner" method="post">
 			{% csrf_token %}
-				<label form="title" class="form-label">Add YouTube link</label>
+				<label form="title" class="form-label">Generate YouTube link</label>
 				<input type="text" class="form-control form-control-lg" name="youtube_link" placeholder="Enter the link"/>
-				<button class="btn btn-secondary mt-4 mb-4" type="submit">Generate</button>
+				<button class="btn btn-secondary mt-4 mb-4 float-right" type="submit">Generate</button><img id="spinner" class="htmx-indicator" src="https://i.imgur.com/8THYvPQ.gif"><i id="spinner" class="htmx-indicator fa fa-spinner fa-spin fa-3x fa-fw"></i><span class="sr-only"> Loading...</span>
 			</form>
 		</div>
 		
-		{% if youtube_link %}
-			<div class="col-12"> 
-					<h4>Links</h4>
-					<hr>
-					{% for link in youtube_link %}
-					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
-					<a id="myInput" href="https://www.youtube.com/watch?v={{ link }}" class="card-text">https://www.youtube.com/watch?v={{ link }}</a>
-					<button onclick="myCopyy()" class="btn btn-success">Copy<i class="fa fa-copy"></i></button>
-				</div>
-				{% endfor %}
-				
-				{% for thumbnail in thumbnail_ids %}
-					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
-					<img src="https://i1.ytimg.com/vi">
-				</div>
-				{% endfor %}
-				
-				{% for photo in photo_ids %}
-					<div class="shadow card-body mb-4 p-md-5 mx-md-4">
-					<img src="https://i1.ytimg.com/vi">
-				</div>
-				{% endfor %}
-				
-				</div>
-			{% endif %}
+	
+	
+		<div id="results">
+			{% include "youtube_results.html" %}
 		</div>
-		</div>
+		
+	
+	
+</div>
+</div>
 			
 {% endblock content %}
 			

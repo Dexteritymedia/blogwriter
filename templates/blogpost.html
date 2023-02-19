@@ -1,0 +1,13 @@
+{% if blog_post %}
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Blog Post</h4>
+					<hr>
+					<p>Words: {{ blog_post|safe|wordcount }}</p>
+					<div id="myInput2" class="card-text">{{ blog_post|safe }}</div>
+	
+				<div class="d-grid gap-2">
+				<button onclick="myCopy()" class="btn btn-success">Copy <i class="fa fa-copy"></i></button>
+				<a href="{% url 'blogpost' %}" class="btn btn-primary mb-4">Rewrite <i class="fa fa-refresh"></i></a>
+				</div>
+				</div>
+			{% endif %}

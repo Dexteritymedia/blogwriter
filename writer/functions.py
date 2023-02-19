@@ -33,9 +33,17 @@ def generateblogoutline(audience, title):
 def generateblogpost(outline):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Write a 2500 words blog post explaining each outlines, headings and subtitles in an informative and expertise format. Your writing style should demonstrate a deep understanding of the topic and a shows you have experience. \n\nMake sure to include semantic adjectives and do not forget to add appropriate html tags and also add a clickable table of contents with the heading tag h2 and ul tag for the lists. \n\nMake sure the first letter in headings start with capital letter \n\n{}".format(outline),
+        prompt="""
+                Write a 2500 words blog post explaining each outlines, headings
+                and subtitles in an informative and expertise format. Your writing
+                style should demonstrate a deep understanding of the topic and a shows
+                you have experience. \n\nMake sure to include semantic adjectives and
+                do not forget to add appropriate html tags and also add a clickable
+                table of contents with the heading tag h2 and ul tag for the lists.
+                \n\nMake sure the first letter in headings start with capital letter
+                \n\n{}""".format(outline),
         temperature=0.7,
-        max_tokens=2805,
+        max_tokens=250,#2805
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0)
@@ -45,7 +53,9 @@ def generateblogpost(outline):
 def regenerateblogpost(blog_post):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Rewrite and paraphase the article below, add appropriate html tags and a clickable table of contents\nArticle:{}".format(blog_post),
+        prompt="""
+                Rewrite and paraphase the article below, add appropriate html tags
+                and a clickable table of contents\nArticle:{}""".format(blog_post),
         temperature=0.85,
         max_tokens=2000,
         top_p=1,
@@ -71,7 +81,10 @@ def generatemetadescription(title):
 def generateyoutubelink(topic):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate 3 active youtube links in html tags with complete url on the following topic separate each video link with the tag <br/>\nTopic: {}".format(topic),
+        prompt="""
+                Generate 3 active youtube links in html tags with
+                complete url on the following topic separate each video
+                link with the tag <br/>\nTopic: {}""".format(topic),
         temperature=0.7,
         max_tokens=500,
         top_p=1,

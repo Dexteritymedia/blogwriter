@@ -1,0 +1,13 @@
+{% if meta_description %}
+			<div class="col-12" id="#metadesc">
+				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Meta Description</h4>
+					<hr>
+					<p id="myInput" class="card-text">{{ meta_description|safe }}</p>
+					
+				<div class="d-grid gap-2">
+				<button onclick="myCopyy()" class="btn btn-success">Copy<i class="fa fa-copy"></i></button>
+				</div>
+				</div>
+			</div>
+			{% endif %}

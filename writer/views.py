@@ -136,30 +136,37 @@ def blogpost(request):
 
     context = {}
     context['blog_post'] = request.session['blog_post']
-    return render(request, 'home.html', context)
+    context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+    return render(request, 'blogpost.html', context)
+
 
 
 @login_required
 def rewrite_blogpost(request):
-    rewrite_blog_post = request.session['blog_post']
-    rewrite_post = regenerateblogpost(rewrite_blog_post)
-    if rewrite_post:
+    try:
+        rewrite_blog_post = request.session['blog_post']
+        rewrite_post = regenerateblogpost(rewrite_blog_post)
+        if rewrite_post:
         
-        request.session['rewrite_post'] = rewrite_post
-    else:
+            request.session['rewrite_post'] = rewrite_post
+        else:
         
-        messages.error(request, 'Oops we could not generate any meta description for you, please try again.')
-        return redirect('home')
+            messages.error(request, 'Oops we could not generate any meta description for you, please try again.')
+            return redirect('home')
         
-    if 'rewrite_post' in request.session:    
-        pass
-    else:
-        messages.error(request, 'Start by creating a blog outline')
-        return redirect('home')
+        if 'rewrite_post' in request.session:    
+            pass
+        else:
+            messages.error(request, 'Start by creating a blog outline')
+            return redirect('home')
 
-    context = {}
-    context['rewrite_post'] = request.session['rewrite_post']
-    return render(request, 'home.html', context)
+        context = {}
+        context['rewrite_post'] = request.session['rewrite_post']
+        context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+        return render(request, 'home.html', context)
+    except:
+        messages.error(request, 'Start by creating a blog post')
+        return redirect('home')
 
 
 @login_required
@@ -183,7 +190,8 @@ def meta_description(request):
 
     context = {}
     context['meta_description'] = request.session['meta_description']
-    return render(request, 'home.html', context)
+    context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+    return render(request, 'meta_description.html', context)
 
 
 @login_required
@@ -211,7 +219,7 @@ def youtube_link(request):
         context = {}
         context['youtube_link'] = request.session['youtube_link']
         context['is_htmx'] = request.headers.get('HX-Request') == 'true'
-        return render(request, 'home.html', context)
+        return render(request, 'youtube_link.html', context)
 
 
 def get_youtube_link(request):
@@ -220,15 +228,16 @@ def get_youtube_link(request):
     if youtube_link:
         query = youtube_link.replace(' ', '+')
         html = urllib.request.urlopen("https://www.youtube.com/results?search_query="+query)
-        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode())
-        thumbnail_ids = re.findall(r"vi\/(.*)\//", html.read().decode())
-        photo_ids = re.findall(r"vi\/(\S{11})\/0\.jpg/", html.read().decode())
+        video_ids = re.findall(r"watch\?v=(\S{11})", html.read().decode()) 
+        print(video_ids)
+        remove_duplicates = list(set(video_ids))#To remove duplicates from the results
+        print(remove_duplicates)
+        print(len(remove_duplicates))
+        print(list(dict.fromkeys(video_ids)))#To remove duplicates from the results and sort them out
         context['youtube_link'] = video_ids[:3]
-        context['thumbnail_ids'] = thumbnail_ids[:3]
-        context['photo_ids'] = photo_ids[:3]
-        print(context['photo_ids'])
-        print(context['youtube_link'])
-        return render(request, 'youtube.html', context)
+        context['youtube_link2'] = remove_duplicates[:10]
+        context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+        return render(request, 'youtube_results.html', context)
     return render(request, 'youtube.html', context)
 
 
@@ -272,6 +281,7 @@ def add_youtube_link(request):
     context['blog_post_1'] = request.session['youtube_blog_link'][:index]
     context['youtube_add_link'] = youtube_link
     context['blog_post_2'] = request.session['youtube_blog_link'][index:]
+    context['is_htmx'] = request.headers.get('HX-Request') == 'true'
     
-    return render(request, 'home.html', context)
+    return render(request, 'youtube_blog_link.html', context)
     
