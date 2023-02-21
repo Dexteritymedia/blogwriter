@@ -1,6 +1,7 @@
 import os
 import urllib.request
 import re
+from time import time, sleep
 
 from django.conf import settings
 
@@ -43,7 +44,7 @@ def generateblogpost(outline):
                 \n\nMake sure the first letter in headings start with capital letter
                 \n\n{}""".format(outline),
         temperature=0.7,
-        max_tokens=250,#2805
+        max_tokens=2805,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0)
@@ -105,3 +106,28 @@ def addyoutubelink(link, post):
         presence_penalty=0)
 
     return response['choices'][0]['text']
+
+
+def gpt_completion(post, model="text-davinci-003", tokens=2000, temp=0.7, top_p=1, freq_pen=0, pres_pen=0 ):
+    
+    max_retry = 5
+    retry = 0
+    while True:
+        try:
+            response = openai.Completion.create(
+                model=model,
+		prompt="Rewrite this article and make sure to keep the appropriate html tags.\nArite:\n\n{}".format(post),
+		temperature=temp,
+		max_tokens=tokens,
+		top_p=top_p,
+		frequency_penalty=freq_pen,
+		presence_penalty=pres_pen
+                )
+            text = response['choices'][0]['text'].strip()
+            return text
+        except Exception as e:
+            retry += 1
+            if retry >= max_retry:
+                return "GPT3 error: %s" % e
+            print('Error communication with OpenAI:', e)
+            sleep(1)

@@ -1,3 +1,5 @@
+import textwrap
+
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse, HttpResponseRedirect
@@ -167,6 +169,22 @@ def rewrite_blogpost(request):
     except:
         messages.error(request, 'Start by creating a blog post')
         return redirect('home')
+
+
+@login_required
+def rewrite_post(request):
+    alltext = request.session['blog_post']
+    chunks = textwrap.wrap(alltext, 2000)
+    results = list()
+    for chunk in chunks:
+        prompt = chunk
+        text = gpt_completion(prompt)
+        results.append(text)
+    context = {}
+    context['results'] = results
+    #context['is_htmx'] = request.headers.get('HX-Request') == 'true'
+    return render(request, 'rewrite_post.html', context)
+
 
 
 @login_required

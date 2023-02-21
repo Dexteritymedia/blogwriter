@@ -1,0 +1,14 @@
+{% if results %}
+			<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
+					<h4>Rewritten Blog Post</h4>
+					<hr>
+					<p>Words: {{ results|safe|wordcount }}</p>
+					{% for result in results %}
+						<div id="myInput2" class="card-text">{{ result|safe }}</div>
+					{% endfor %}
+	
+				<div class="d-grid gap-2">
+					<button onclick="myCopy()" class="btn btn-success">Copy <i class="fa fa-copy"></i></button>
+				</div>
+			</div>
+{% endif %}
