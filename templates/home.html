@@ -41,7 +41,7 @@
 	<div class="row">
 		<div class="col">
 
-			<form class="" action="{% url 'home' %}" method="post">
+			<form class="" hx-post="{% url 'home' %}" hx-target="#blog-outline" hx-swap="innerHTML" hx-push-url="true" hx-indicator="#spinnerO" method="post">
 			{% csrf_token %}
 	
 				<div class="row">
@@ -68,7 +68,9 @@
 				<div class="container">
 					<div class="row">
 					<div class="col-12">
-					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline</button>
+					<button name="outline" class="btn btn-secondary mb-4" type="submit">Generate Outline
+					<i id="spinnerO" class="htmx-indicator fa fa-spinner fa-spin fa-2x fa-fw"></i><span class="sr-only"> Loading...</span>
+					</button>
 					</form>
 					
 					
@@ -85,20 +87,10 @@
 		</div>
 		
 		<div class="row mt-5">
-			{% if blog_outline %}
-			<div class="col-12">
-				<div class="shadow card-body mb-4 p-md-5 mx-md-4"> 
-					<h4>Blog Outline</h4>
-					<hr>
-					<div id="myInput3" class="card-text">{{ blog_outline|safe }}</div>
-	
-				<div class="d-grid gap-2">
-					<button onclick="copyText()" class="btn btn-success">Copy <i class="fa fa-copy"></i></button>
-					<a href="{% url 'retry' %}" class="btn btn-primary mb-4">Retry <i class="fa fa-refresh"></i></a>
-				</div>
-				</div>
+		
+			<div class="col-12" id="blog-outline">
+				{% include "blog_outline.html" %}
 			</div>
-			{% endif %}
 			
 			<div class="col-12" id="blog-post">
 				{% include "blogpost_page.html" %}

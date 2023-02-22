@@ -22,7 +22,7 @@ def generateyoutubevideo(search):
 def generateblogoutline(audience, title):
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt="Generate a blog outline for {} based on this\nTitle: {}".format(audience, title),
+        prompt="Generate 5-6 detailed blog outlines for {} based on this\nTitle: {}".format(audience, title),
         temperature=0.7,
         max_tokens=1000,
         top_p=1,
@@ -56,7 +56,8 @@ def regenerateblogpost(blog_post):
         model="text-davinci-003",
         prompt="""
                 Rewrite and paraphase the article below, add appropriate html tags
-                and a clickable table of contents\nArticle:{}""".format(blog_post),
+                and a clickable table of contents and showcase you are an expert using
+                Dave Ramsey style of writing\n\nArticle:{}\n\nResult:""".format(blog_post),
         temperature=0.85,
         max_tokens=2000,
         top_p=1,
@@ -116,7 +117,7 @@ def gpt_completion(post, model="text-davinci-003", tokens=2000, temp=0.7, top_p=
         try:
             response = openai.Completion.create(
                 model=model,
-		prompt="Rewrite this article and make sure to keep the appropriate html tags.\nArite:\n\n{}".format(post),
+		prompt="Rewrite this article and make sure to keep the appropriate html tags.\nArite:\n\n{}\n\n".format(post),
 		temperature=temp,
 		max_tokens=tokens,
 		top_p=top_p,
